@@ -8,8 +8,17 @@ def test_serialization():
     )
     bm64 = BitMap64.deserialize(buf)
     assert bm64.serialize() == buf
+    assert len(bm64) > 0
 
-    assert len(bm64)
+    # multiple containers
+    m = BitMap64()
+    m.add(1)
+    m.add(2**33)
+    m.add(2**33 + 10)
+    m.add(2**34)
+    bm64 = BitMap64.deserialize(m.serialize())
+    assert len(bm64) == 4
+    assert list(m) == [1, 2**33, 2**33 + 10, 2**34]
 
 
 def test_map32():
@@ -47,3 +56,4 @@ def test_map64():
     assert m[1] == 2**33
     assert m[2] == 2**33 + 10
     assert m[3] == 2**34
+    assert list(m) == [1, 2**33, 2**33 + 10, 2**34]

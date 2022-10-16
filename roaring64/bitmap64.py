@@ -42,7 +42,7 @@ class BitMap64:
         return self.containers[i]
 
     def _add_container(self, container):
-        i = bisect.bisect_left(self.containers, container, key=keyfunc)
+        i = bisect.bisect_left(self.containers, container.key, key=keyfunc)
         assert i == len(self.containers) or self.containers[i].key != container.key
         self.containers.insert(i, container)
 
@@ -70,10 +70,7 @@ class BitMap64:
         return b"".join(chunks)
 
     def __sizeof__(self):
-        n = 8
-        for c in self.containers:
-            n += 4 + sys.getsizeof(c)
-        return n
+        return 8 + sum(4 + sys.getsizeof(c) for c in self.containers)
 
     def __str__(self):
         return str(self.containers)
@@ -102,6 +99,11 @@ class BitMap64:
             else:
                 v = c.bitmap[n]
                 return combine64(c.key, v)
+
+    def __iter__(self):
+        for c in self.containers:
+            for v in c.bitmap:
+                yield combine64(c.key, v)
 
     def add(self, n):
         key, v = split64(n)
