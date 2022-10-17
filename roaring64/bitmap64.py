@@ -13,6 +13,9 @@ class Container:
         self.key = key
         self.bitmap = bitmap
 
+    def __str__(self):
+        return f"C({self.key}, {self.bitmap})"
+
 
 def keyfunc(entry):
     return entry.key
