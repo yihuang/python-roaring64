@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "python-roaring64"
+name = "roaring64"
 version = "0.1.0"
 description = "roaring64 wrapper of pyroaring implemented in pure python"
 authors = ["HuangYi <huang@crypto.com>"]
