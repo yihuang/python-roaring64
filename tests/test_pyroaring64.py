@@ -57,3 +57,17 @@ def test_map64():
     assert m[2] == 2**33 + 10
     assert m[3] == 2**34
     assert list(m) == [1, 2**33, 2**33 + 10, 2**34]
+
+
+def test_rank():
+    m = BitMap64()
+    m.add(1)
+    m.add(2**33)
+    m.add(2**33 + 10)
+    m.add(2**34)
+
+    assert 1 == m.rank(1)
+    assert 1 == m.rank(2)
+    assert 1 == m.rank(2**32)
+    assert 2 == m.rank(2**33)
+    assert 4 == m.rank(2**34)
